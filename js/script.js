@@ -2,26 +2,7 @@
 // VIDEO INTRO SPLASH SCREEN
 // ============================================
 
-// Check if user has already seen the intro
-function hasSeenIntro() {
-  return localStorage.getItem('dirtydicks-intro-seen') === 'true';
-}
-
-// Mark intro as seen
-function markIntroAsSeen() {
-  localStorage.setItem('dirtydicks-intro-seen', 'true');
-}
-
-// Initialize intro on page load
-window.addEventListener('load', () => {
-  if (!hasSeenIntro()) {
-    showIntroVideo();
-  } else {
-    hideIntroVideo();
-  }
-});
-
-// Show intro video
+// Show intro video every time (removed localStorage check)
 function showIntroVideo() {
   const introContainer = document.getElementById('intro-video-container');
   const introVideo = document.getElementById('intro-video');
@@ -68,13 +49,17 @@ function transitionToMainSite() {
 
   setTimeout(() => {
     hideIntroVideo();
-    markIntroAsSeen();
     
     // Fade in main content
     document.body.style.opacity = '1';
     document.body.style.transition = 'opacity 0.8s ease-in';
   }, 800);
 }
+
+// Initialize intro on page load
+window.addEventListener('load', () => {
+  showIntroVideo();
+});
 
 // ============================================
 // STICKY HEADER ON SCROLL
@@ -241,13 +226,3 @@ if ('IntersectionObserver' in window) {
     imageObserver.observe(img);
   });
 }
-
-// ============================================
-// RESET INTRO IF USER WANTS TO RE-WATCH
-// ============================================
-window.addEventListener('keydown', (e) => {
-  // Press 'R' to reset and re-watch intro
-  if (e.ctrlKey && e.key === 'r') {
-    localStorage.removeItem('dirtydicks-intro-seen');
-  }
-});
